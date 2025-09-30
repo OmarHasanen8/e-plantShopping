@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './ProductList.css'
 import CartItem from './CartItem'; 
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { addItem }from './CartSlice';
 
 function ProductList({ onHomeClick }) {
@@ -9,7 +9,7 @@ function ProductList({ onHomeClick }) {
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
 const [addedToCart, setAddedToCart] = useState({});
 const dispatch = useDispatch();
-
+const cartItems = useSelector(state => state.cart.items);
     const plantsArray = [
         {
             category: "Air Purifying Plants",
@@ -262,7 +262,8 @@ const dispatch = useDispatch();
         setAddedToCart((prevState) => ({
             ...prevState,
             [plant.name]: true ,
-        }));
+        })); 
+        const totalQuantity = cartItems.reduce((sum, item) => sum + item.quantity, 0);
     }
     return (
         <div>
@@ -281,7 +282,30 @@ const dispatch = useDispatch();
                 </div>
                 <div style={styleObjUl}>
                     <div> <a href="#" onClick={(e) => handlePlantsClick(e)} style={styleA}>Plants</a></div>
-                    <div> <a href="#" onClick={(e) => handleCartClick(e)} style={styleA}><h1 className='cart'><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" id="IconChangeColor" height="68" width="68"><rect width="156" height="156" fill="none"></rect><circle cx="80" cy="216" r="12"></circle><circle cx="184" cy="216" r="12"></circle><path d="M42.3,72H221.7l-26.4,92.4A15.9,15.9,0,0,1,179.9,176H84.1a15.9,15.9,0,0,1-15.4-11.6L32.5,37.8A8,8,0,0,0,24.8,32H8" fill="none" stroke="#faf9f9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" id="mainIconPathAttribute"></path></svg></h1></a></div>
+                  <div style={{ position: 'relative', display: 'inline-block' }}>
+  <a href="#" onClick={(e) => handleCartClick(e)} style={styleA}>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" id="IconChangeColor" height="68" width="68">
+      <rect width="156" height="156" fill="none"></rect>
+      <circle cx="80" cy="216" r="12"></circle>
+      <circle cx="184" cy="216" r="12"></circle>
+      <path d="M42.3,72H221.7l-26.4,92.4A15.9,15.9,0,0,1,179.9,176H84.1a15.9,15.9,0,0,1-15.4-11.6L32.5,37.8A8,8,0,0,0,24.8,32H8" fill="none" stroke="#faf9f9" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></path>
+    </svg>
+    {/* Badge الرقم */}
+    <span style={{
+      position: 'absolute',
+      top: '-5px',
+      right: '-5px',
+      backgroundColor: 'red',
+      color: 'white',
+      borderRadius: '50%',
+      padding: '2px 6px',
+      fontSize: '14px',
+      fontWeight: 'bold'
+    }}>
+      {cartItems.reduce((sum, item) => sum + item.quantity, 0)}
+    </span>
+  </a>
+</div>
                 </div>
             </div>
            {!showCart ? (
@@ -301,9 +325,9 @@ const dispatch = useDispatch();
               <p className="product-description">{plant.description}</p>
               <p className='product-cost'>${plant.cost}</p>
               <button
-                className={`product-button ${addedToCart[plant.name] ? 'disabled' : ''}`}
-                onClick={() => handleAddToCart(plant)}
-                disabled={addedToCart[plant.name]}
+                className={`product-button ${cartItems.some(item => item.name === plant.name) ? 'disabled' : ''}`}
+                onClick={() =>dispatch(addItem(plant))} 
+               disabled={cartItems.some(item => item.name === plant.name)}
               >
                {addedToCart[plant.name] ? "Added to Cart" : "Add to Cart"}
               </button>
