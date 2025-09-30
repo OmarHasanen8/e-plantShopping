@@ -7,7 +7,7 @@ import { addItem }from './CartSlice';
 function ProductList({ onHomeClick }) {
     const [showCart, setShowCart] = useState(false);
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
-const [addedToCart, setAddedToCart] = useState({}); 
+const [addedToCart, setAddedToCart] = useState({});
 const dispatch = useDispatch();
 
     const plantsArray = [
@@ -259,7 +259,10 @@ const dispatch = useDispatch();
     }; 
     const handleAddToCart = (plant) => { 
         dispatch(addItem(plant)); 
-        setAddedToCart((prev) => ({ ...prev, [plant.name]: true }));
+        setAddedToCart((prevState) => ({
+            ...prevState,
+            [plant.name]: true ,
+        }));
     }
     return (
         <div>
@@ -284,21 +287,25 @@ const dispatch = useDispatch();
            {!showCart ? (
   <div className="product-grid">
     {plantsArray.map((category, i) => (
-      <div key={i} className='product-grid' >
-        <h2 >{category.category}</h2>
+      <div key={i}  >
+        <h1 >
+            <div >
+            {category.category}
+            </div>
+            </h1>
         <div className='product-list' >
           {category.plants.map((plant, j) => (
             <div key={j} className='product-card' >
               <h3 className='product-title'>{plant.name}</h3>
               <img src={plant.image} alt={plant.name} className="product-image" />
-              <p>{plant.description}</p>
-              <p className='product-price'>{plant.cost}</p>
+              <p className="product-description">{plant.description}</p>
+              <p className='product-cost'>${plant.cost}</p>
               <button
-                className={'product-button ' + (addedToCart[plant.name] ? 'added-to-cart' : '')}
+                className={`product-button ${addedToCart[plant.name] ? 'disabled' : ''}`}
                 onClick={() => handleAddToCart(plant)}
-                disabled={!!addedToCart[plant.name]}
+                disabled={addedToCart[plant.name]}
               >
-                {addedToCart[plant.name] ? 'Added' : 'Add to Cart'}
+               {addedToCart[plant.name] ? "Added to Cart" : "Add to Cart"}
               </button>
             </div>
           ))}
