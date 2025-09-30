@@ -1,33 +1,85 @@
 .about-us-container {
-    width: 1000px;
-    /* margin: 0 auto; */
-    /* padding: 20px; */
-    /* background-color: red; */
-    text-align: justify;
-  }
-  
+  max-width: 1000px;       /* بدل ما تكون ثابتة */
+  width: 90%;              /* ياخد عرض الشاشة بنسبة */
+  margin: 0 auto;          /* لتوسيط المحتوى */
+  padding: 20px;
+  text-align: justify;
+}
+
+.about-us-heading {
+  font-size: 2rem;        /* حجم نسبي */
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.about-us-description {
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.about-us-content {
+  font-size: 1rem;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+/* صور اللوغو */
+.plant_logo_right,
+.plant_logo_left {
+  margin: 15px 0;
+}
+
+.plant_logo_right {
+  text-align: right;
+}
+
+.plant_logo_left {
+  text-align: left;
+}
+
+.plant_logo_right img,
+.plant_logo_left img {
+  max-width: 60px;
+  height: auto;
+}
+
+/* موبايل */
+@media (max-width: 768px) {
   .about-us-heading {
-    font-size: 32px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 20px;
-  }
-  
-  .about-us-description {
-    font-size: 18px;
-    color: #666;
-    margin-bottom: 30px;
-    text-align: center;
-  }
-  
-  .about-us-content {
-    font-size: 18px;
-    margin-bottom: 20px;
-  }
-  .plant_logo_right{
-    text-align: right;
+    font-size: 1.5rem;
   }
 
-  .plant_logo_left{
-    text-align: left;
+  .about-us-description {
+    font-size: 1rem;
   }
+
+  .about-us-content {
+    font-size: 0.95rem;
+  }
+
+  .plant_logo_right,
+  .plant_logo_left {
+    text-align: center;  /* الصور تصير بالنص بالموبايل */
+  }
+
+  .plant_logo_right img,
+  .plant_logo_left img {
+    max-width: 50px;
+  }
+}
+
+/* شاشات صغيرة جداً (موبايل < 480px) */
+@media (max-width: 480px) {
+  .about-us-heading {
+    font-size: 1.3rem;
+  }
+
+  .about-us-description,
+  .about-us-content {
+    font-size: 0.9rem;
+  }
+}
